@@ -152,7 +152,7 @@ sup {
 }
 
 a {
-  color: #7AB730;
+  color: #7AB730 ;
   text-decoration: none;
   background-color: transparent;
 }
@@ -408,7 +408,7 @@ h4, .h4 {
 }
 
 h5, .h5 {
-  font-size: 1.25rem;
+  /* font-size: 1.25rem; */
 }
 
 h6, .h6 {
@@ -625,7 +625,7 @@ pre code {
 
 @media (min-width: 1200px) {
   .container, .container-sm, .container-md, .container-lg, .container-xl {
-    max-width: 1140px;
+    max-width: 1360px;
   }
 }
 
@@ -4622,7 +4622,7 @@ input[type="button"].btn-block {
 
 .pagination-lg .page-link {
   padding: 0.75rem 1.5rem;
-  font-size: 1.25rem;
+  /* font-size: 1.25rem; */
   line-height: 1.5;
 }
 
