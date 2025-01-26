@@ -42,4 +42,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class);
+    }
+
+    // A user can comment on many blogs
+    public function comments()
+    {
+        return $this->hasMany(BlogComment::class);
+    }
+
+    // A user can like many blogs
+    public function likes()
+    {
+        return $this->hasMany(BlogLike::class);
+    }
+
+    // A user can share many blogs
+    public function shares()
+    {
+        return $this->hasMany(BlogShare::class);
+    }
 }
