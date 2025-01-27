@@ -175,9 +175,9 @@
                 t.isConfirmed && ($("#delete-all").text("Deleting..."), e.preventDefault(), $.ajax({
                     type: "POST",
                     dataType: "json",
-                    url: "",
+                    url: "{{ route('category.bulkDelete') }}",
                     data: {
-                        employers: rows,
+                        category: rows,
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(e) {

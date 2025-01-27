@@ -21,6 +21,7 @@
                 <div class="card-body">
                     <form id="CategoriesForm" method="POST" action="{{ route('category.update',$category->id) }}">
                         @csrf
+                        @method('put')
                         <div class="form-group">
                             <label for="name" class="col-form-label">Categories Name</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter Categories Name"

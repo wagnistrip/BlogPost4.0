@@ -55,6 +55,9 @@ Route::group(['prefix' => '/admin'], function() {
         Route::post('category', [CategoryController::class, 'store'])->name('category.store');
         Route::put('category/{id}', [CategoryController::class, 'update'])->name('category.update');
         Route::delete('category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+        Route::post('category/bulkDelete', [CategoryController::class, 'bulkDelete'])->name('category.bulkDelete');
+
+
 
 
 

@@ -79,4 +79,11 @@ class CategoryController extends Controller
          BlogCategory::find($id)->delete();
          return redirect()->route('category.index')->with('success', 'Category deleted successfully');
     }
+
+    public function bulkDelete(Request $request)
+    {
+        BlogCategory::whereIn('id', $request->category)->delete();
+        return response()->json(['success' => 'categories deleted successfully!'], 200);
+    }
+
 }
