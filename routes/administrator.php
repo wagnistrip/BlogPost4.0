@@ -1,0 +1,67 @@
+<?php
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\Admin\Auth\AuthController;
+use App\Http\Controllers\Admin\Auth\AccountController;
+use App\Http\Controllers\Admin\ChangePasswordController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Blog\BlogDashboardController;
+
+
+
+
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
+Route::get('/route-clear', function() {
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('config:cache');
+
+    return 'Routes cache has been cleared';
+});
+
+Route::get('/composer-dump-autoload', function () {
+    try {
+        Artisan::call('dump-autoload');
+        $output = Artisan::output();
+
+        return "Composer dump-autoload has been run successfully.\n" . $output;
+    } catch (\Exception $e) {
+        return "Error running composer dump-autoload: " . $e->getMessage();
+    }
+});
+
+Route::get('/migrate', function () {
+    Artisan::call('migrate');
+
+    return 'Migrations have been run.';
+});
+
+
+
+
+Route::group(['prefix' => '/admin', 'namespace' => 'App\Http\Controllers\Admin'], function() {
+
+        Route::any('/login', [AuthController::class, 'login'])->name('login');
+        Route::post('authenticate', [AuthController::class, 'authentiCation'])->name('authenticate');
+        Route::post('/logout', [DashboardController::class, 'logout'])->name('logout');
+        Route::get('change-password', [ChangePasswordController::class,'changePasswordForm'])->name('changePassword.form');
+        Route::post('change-password/change', [ChangePasswordController::class,'changePassword'])->name('changePassword.update');
+        Route::resource('accounts', AccountController::class);
+        
+        Route::get('create', [BlogDashboardController::class, 'addBlog'])->name('blog.create');
+        Route::post('store', [BlogDashboardController::class, 'store'])->name('blog.store');
+        Route::get('dashboard', [BlogDashboardController::class, 'dashboard'])->name('blog.dashboard');
+        Route::get('edit/{id}', [BlogDashboardController::class, 'edit'])->name('blog.edit');
+        Route::put('/update', [BlogDashboardController::class, 'BlogUpdate'])->name('blog.update');
+        Route::delete('/blog/delete/{id}',[BlogDashboardController::class, 'destroy'])->name('blog.delete');
+        Route::post('logoutblog',[BlogDashboardController::class, 'logout'])->name('blog.logout');
+
+});
+
+
+
+
+
