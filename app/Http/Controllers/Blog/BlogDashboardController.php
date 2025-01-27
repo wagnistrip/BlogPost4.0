@@ -7,14 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\Blog;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Models\BlogImage;
 class BlogDashboardController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth:admin');
-        // $this->middleware('permission:Dashboard')->only([
-        //     'index',
-        // ]);
+      
     }
 
     public function dashboard(Request $request)
@@ -43,18 +42,21 @@ class BlogDashboardController extends Controller
                return redirect()->back()->withErrors($validator);
           }
 
-          $blog = new Blog;
-          $blog->heading = $request->heading;
-          $blog->sub_heading = $request->sub_heading;
-          $blog->name = $request->name;
-          $blog->short_description = $request->short_description;
-          $blog->description = $request->description;
-          $blog->admin_id    = Auth::id();
-          // Handle file upload if an image is provided
+          $blog                         = new Blog;
+          $blog->title                  = $request->heading;
+          $blog->sub_title              = $request->sub_heading;
+          $blog->name                   = $request->name;
+          $blog->short_description      = $request->short_description;
+          $blog->description            = $request->description;
+          $blog->admin_id               = Auth::id();
+
+          $blogImage                   = new BlogImage();
+
           if ($request->hasFile('image')) {
-              $file = $request->file('image');
+
+              $file      = $request->file('image');
               $extension = $file->getClientOriginalExtension();
-              $filename = time() . '.' . $extension;
+              $filename  = time() . '.' . $extension;
               $file->move(public_path('blog/'), $filename);
               $blog->image = $filename;
           }

@@ -6,9 +6,7 @@ use App\Http\Controllers\Admin\Auth\AccountController;
 use App\Http\Controllers\Admin\ChangePasswordController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Blog\BlogDashboardController;
-
-
-
+use App\Http\Controllers\Category\CategoryController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -42,7 +40,7 @@ Route::get('/migrate', function () {
 
 
 
-Route::group(['prefix' => '/admin', 'namespace' => 'App\Http\Controllers\Admin'], function() {
+Route::group(['prefix' => '/admin'], function() {
 
         Route::any('/login', [AuthController::class, 'login'])->name('login');
         Route::post('authenticate', [AuthController::class, 'authentiCation'])->name('authenticate');
@@ -50,7 +48,16 @@ Route::group(['prefix' => '/admin', 'namespace' => 'App\Http\Controllers\Admin']
         Route::get('change-password', [ChangePasswordController::class,'changePasswordForm'])->name('changePassword.form');
         Route::post('change-password/change', [ChangePasswordController::class,'changePassword'])->name('changePassword.update');
         Route::resource('accounts', AccountController::class);
-        
+
+        Route::get('category', [CategoryController::class, 'index'])->name('category.index');
+        Route::get('category/create', [CategoryController::class, 'create'])->name('category.create');
+        Route::get('category/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+        Route::post('category', [CategoryController::class, 'store'])->name('category.store');
+        Route::put('category/{id}', [CategoryController::class, 'update'])->name('category.update');
+        Route::delete('category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
+
+
         Route::get('create', [BlogDashboardController::class, 'addBlog'])->name('blog.create');
         Route::post('store', [BlogDashboardController::class, 'store'])->name('blog.store');
         Route::get('dashboard', [BlogDashboardController::class, 'dashboard'])->name('blog.dashboard');
@@ -58,6 +65,7 @@ Route::group(['prefix' => '/admin', 'namespace' => 'App\Http\Controllers\Admin']
         Route::put('/update', [BlogDashboardController::class, 'BlogUpdate'])->name('blog.update');
         Route::delete('/blog/delete/{id}',[BlogDashboardController::class, 'destroy'])->name('blog.delete');
         Route::post('logoutblog',[BlogDashboardController::class, 'logout'])->name('blog.logout');
+
 
 });
 
