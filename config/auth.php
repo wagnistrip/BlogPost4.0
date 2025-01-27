@@ -36,11 +36,22 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
     ],
+
+    'api' => [
+        'driver' => 'sanctum',
+        'provider' => 'users',
+        'hash' => false,
+    ],
+
+    'admin' => [
+        'driver' => 'session',
+        'provider' => 'admins', // This should match the provider defined below
+    ],
+],
 
     /*
     |--------------------------------------------------------------------------
@@ -65,10 +76,11 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+    'admins' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Admin::class, // Make sure this model exists
+    ],
+
     ],
 
     /*
@@ -97,6 +109,10 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'admins' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Admin::class, // Make sure this model exists
+    ],
     ],
 
     /*
