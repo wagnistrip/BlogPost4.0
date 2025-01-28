@@ -46,6 +46,13 @@
                 </a>
             </li>
 
+            <li class="side-nav-item {{ request()->routeIs('category.*') ? 'active' : '' }}">
+                <a href="{{ route('category.index') }}" class="side-nav-link">
+                    <i class="fa fa-map"></i>
+                    <span> Category </span>
+                </a>
+            </li>
+
 
 
                 <li
