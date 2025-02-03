@@ -107,12 +107,13 @@
 
                         <div class="col-sm-6 form-section">
                             <label class="col-form-label" for="images">Blog Images</label>
-                            <input type="file" class="form-control form-control-lg" id="images" name="images[]" multiple>
+                            <input type="file" class="form-control form-control-lg" id="images" name="images[]" multiple accept="image/*">
                             @error('images')
                             <span class="error invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
 
+                    
                         <div class="col-sm-6 form-section">
                             <label class="col-form-label" for="status">Status</label>
                             <select class="form-select form-control-lg" name="status">
@@ -123,6 +124,8 @@
                             <span class="error invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
+
+                        <div class="preview-container mt-3" id="imagePreviewContainer" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
                     </div>
                 </div>
                 <div class="card-footer text-end">
@@ -135,7 +138,54 @@
     </div>
 </div>
 <script>
-    // Initialize CKEditor
+    document.getElementById('images').addEventListener('change', function(event) {
+        let previewContainer = document.getElementById('imagePreviewContainer');
+        previewContainer.innerHTML = ""; 
+
+        for (let file of event.target.files) {
+            if (file.type.startsWith('image/')) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let imgWrapper = document.createElement('div');
+                    imgWrapper.style.position = 'relative';
+                    imgWrapper.style.display = 'inline-block';
+                    
+                    let img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.width = '100px';
+                    img.style.height = '100px';
+                    img.style.objectFit = 'cover';
+                    img.style.border = '1px solid #ddd';
+                    img.style.borderRadius = '5px';
+                    
+                    let removeBtn = document.createElement('span');
+                    removeBtn.innerHTML = '×';
+                    removeBtn.style.position = 'absolute';
+                    removeBtn.style.top = '5px';
+                    removeBtn.style.right = '5px';
+                    removeBtn.style.background = 'red';
+                    removeBtn.style.color = 'white';
+                    removeBtn.style.fontWeight = 'bold';
+                    removeBtn.style.width = '20px';
+                    removeBtn.style.height = '20px';
+                    removeBtn.style.textAlign = 'center';
+                    removeBtn.style.cursor = 'pointer';
+                    removeBtn.style.borderRadius = '50%';
+
+                    removeBtn.onclick = function() {
+                        imgWrapper.remove();
+                    };
+
+                    imgWrapper.appendChild(img);
+                    imgWrapper.appendChild(removeBtn);
+                    previewContainer.appendChild(imgWrapper);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+</script>
+<script>
     CKEDITOR.replace('short_description');
     CKEDITOR.replace('description');
 </script>

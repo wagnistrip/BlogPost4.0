@@ -28,7 +28,7 @@
     <div class="h-100" id="leftside-menu-container" data-simplebar>
 
         <!--- Sidemenu -->
-        <ul class="side-nav">
+        <ul class="side-nav" style="margin-top: 12px;">
             @can('Dashboard')
                 <li class="side-nav-item {{ request()->routeIs('dashboard.*') ? 'active' : '' }}">
                     <a href="{{ route('dashboard') }}" class="side-nav-link">

@@ -846,6 +846,7 @@ progress {
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 100%;
+    margin-bottom: 30px;
 }
 
 .offset-1 {
@@ -3862,7 +3863,7 @@ fieldset:disabled .btn {
 
 .btn-sm,
 .btn-group-sm > .btn {
-    padding: 0.28rem 0.8rem;
+    /* padding: 0.28rem 0.8rem; */
     font-size: 0.875rem;
     border-radius: 0.15rem;
 }
@@ -4154,7 +4155,7 @@ fieldset:disabled .btn {
     background-color: transparent;
     border: 0;
 }
-.dropdown-item:hover,
+/* .dropdown-item:hover,
 .dropdown-item:focus {
     color: #2c343f;
     background-color: #f4f6fb;
@@ -4164,7 +4165,7 @@ fieldset:disabled .btn {
     color: #222222;
     text-decoration: none;
     background-color: #f2f5f9;
-}
+} */
 .dropdown-item.disabled,
 .dropdown-item:disabled {
     color: #939393;
@@ -12205,6 +12206,8 @@ body {
     width: 260px;
     position: fixed;
     top: 0;
+    border: 1px solid;
+    color: #ebe0e0;
 }
 .logo span.logo-lg {
     display: block;
