@@ -2064,7 +2064,7 @@ progress {
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) {
-    --bs-table-accent-bg: #f2f2f2;
+    /* --bs-table-accent-bg: #f2f2f2; */
     color: var(--bs-table-striped-color);
 }
 
@@ -3419,8 +3419,8 @@ fieldset:disabled .btn {
     border-color: #e30000;
 }
 .btn-danger:hover {
-    color: #fff;
-    background-color: #d54e69;
+      color: #fff;
+    background-color: #f90032;
     border-color: #c84a63;
 }
 .btn-check:focus + .btn-danger,

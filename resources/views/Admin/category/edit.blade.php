@@ -8,8 +8,6 @@
                 <div class="page-title-right">
                     <a href="{{ url()->previous() }}" class="btn btn-sm btn-dark me-1"><i
                         class="mdi mdi-chevron-double-left me-1"></i>Back</a>
-                    <button type="submit" class="btn btn-sm btn-primary" form="CategoriesForm"><i
-                        class="mdi mdi-database me-1"></i>Update</button>
                 </div>
                 <h4 class="page-title">Create Categories</h4>
             </div>
