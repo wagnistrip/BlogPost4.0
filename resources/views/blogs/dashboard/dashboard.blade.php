@@ -49,8 +49,17 @@
                                             {{$loop->iteration}}
                                         </td>
                                         <td class="table-user">
-                                            <img src="{{ asset('/blog/' . $blog->image) }}" class="img-circle"
-                                                alt="User Image" width="50" height="50">
+                                            @if ($blog->images->isNotEmpty())
+                                                {{-- Display the first image --}}
+                                                <img src="{{ asset('storage/' . $blog->images->first()->image_path) }}"
+                                                     class="img-circle" alt="Blog Image" width="100" height="100">
+                                            @else
+                                                {{-- Display a default image if no blog images are available --}}
+                                                <img src="{{ asset('default-image.jpg') }}"
+                                                     class="img-circle" alt="Default Image" width="100" height="100">
+                                            @endif
+                                        </td>
+
 
                                         </td>
                                         <td>{{ $blog->name }}</td>

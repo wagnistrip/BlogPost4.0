@@ -115,7 +115,7 @@
     <script>
         $(document).ready(function() {
             $(".sub-submit").click(function() {
-            alert("ok");
+           
                 var email = $("#email").val();
                 var password = $("#password").val();
                 $.ajax({

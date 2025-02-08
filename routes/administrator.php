@@ -61,6 +61,7 @@ Route::group(['prefix' => '/admin'], function() {
 
 
 
+        Route::post('/delete-blog-image', [BlogDashboardController::class, 'deleteImage'])->name('deleteImage.blog');
         Route::get('create', [BlogDashboardController::class, 'addBlog'])->name('blog.create');
         Route::post('store', [BlogDashboardController::class, 'store'])->name('blog.store');
         Route::get('dashboard', [BlogDashboardController::class, 'dashboard'])->name('blog.dashboard');
@@ -68,6 +69,7 @@ Route::group(['prefix' => '/admin'], function() {
         Route::put('/update', [BlogDashboardController::class, 'BlogUpdate'])->name('blog.update');
         Route::delete('/blog/delete/{id}',[BlogDashboardController::class, 'destroy'])->name('blog.delete');
         Route::post('logoutblog',[BlogDashboardController::class, 'logout'])->name('blog.logout');
+
 
 
 });

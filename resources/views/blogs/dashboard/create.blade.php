@@ -76,12 +76,15 @@
                         </div>
                         <div class="col-sm-6 form-section">
                             <label class="col-form-label" for="categories">Blog Categories</label>
-                            <select class="form-select form-control-lg" name="categories[]" id="categories">
-                                <option value="1">Technology</option>
-                                <option value="2">Health</option>
-                                <option value="3">Travel</option>
-                                <option value="4">Lifestyle</option>
+                            <select class="form-select form-control-lg" name="categories" id="categories">
+                                <option value="">Select Category</option> <!-- Default placeholder -->
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('categories') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
                             </select>
+
                             <span class="error invalid-feedback" style="display: none;">Please select at least one category.</span>
                         </div>
 
@@ -113,7 +116,7 @@
                             @enderror
                         </div>
 
-                    
+
                         <div class="col-sm-6 form-section">
                             <label class="col-form-label" for="status">Status</label>
                             <select class="form-select form-control-lg" name="status">
@@ -140,7 +143,7 @@
 <script>
     document.getElementById('images').addEventListener('change', function(event) {
         let previewContainer = document.getElementById('imagePreviewContainer');
-        previewContainer.innerHTML = ""; 
+        previewContainer.innerHTML = "";
 
         for (let file of event.target.files) {
             if (file.type.startsWith('image/')) {
@@ -149,7 +152,7 @@
                     let imgWrapper = document.createElement('div');
                     imgWrapper.style.position = 'relative';
                     imgWrapper.style.display = 'inline-block';
-                    
+
                     let img = document.createElement('img');
                     img.src = e.target.result;
                     img.style.width = '100px';
@@ -157,7 +160,7 @@
                     img.style.objectFit = 'cover';
                     img.style.border = '1px solid #ddd';
                     img.style.borderRadius = '5px';
-                    
+
                     let removeBtn = document.createElement('span');
                     removeBtn.innerHTML = '×';
                     removeBtn.style.position = 'absolute';

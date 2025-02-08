@@ -86,7 +86,22 @@
                                 <option value="0" {{ $blog->status == 0 ? 'selected' : '' }}>Inactive</option>
                             </select>
                         </div>
-                        <div class="preview-container mt-3" id="imagePreviewContainer" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
+                        <div class="preview-container mt-3" id="imagePreviewContainer" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            @foreach ($blog->images as $image)
+                                <div class="image-wrapper" style="position: relative; display: inline-block;">
+                                    <img src="{{ asset('storage/' . $image->image_path) }}"
+                                         class="img-preview" width="100" height="100"
+                                         style="object-fit: cover; border: 1px solid #ddd; border-radius: 5px;">
+
+                                    <span class="remove-btn" data-image-id="{{ $image->id }}"
+                                          style="position: absolute; top: 5px; right: 5px; background: red; color: white;
+                                                 font-weight: bold; width: 20px; height: 20px; text-align: center;
+                                                 cursor: pointer; border-radius: 50%;">
+                                        ×
+                                    </span>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-end">
@@ -98,28 +113,31 @@
     </div>
 </div>
 <script>
-    document.getElementById('images').addEventListener('change', function(event) {
-        let previewContainer = document.getElementById('imagePreviewContainer');
-        previewContainer.innerHTML = ""; 
+  document.addEventListener('DOMContentLoaded', function () {
+    let previewContainer = document.getElementById('imagePreviewContainer');
 
+    // Handle new image selection
+    document.getElementById('images').addEventListener('change', function (event) {
         for (let file of event.target.files) {
             if (file.type.startsWith('image/')) {
                 let reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     let imgWrapper = document.createElement('div');
+                    imgWrapper.classList.add('image-wrapper');
                     imgWrapper.style.position = 'relative';
                     imgWrapper.style.display = 'inline-block';
-                    
+
                     let img = document.createElement('img');
                     img.src = e.target.result;
-                    img.style.width = '100px';
-                    img.style.height = '100px';
+                    img.width = 100;
+                    img.height = 100;
                     img.style.objectFit = 'cover';
                     img.style.border = '1px solid #ddd';
                     img.style.borderRadius = '5px';
-                    
+
                     let removeBtn = document.createElement('span');
                     removeBtn.innerHTML = '×';
+                    removeBtn.classList.add('remove-btn');
                     removeBtn.style.position = 'absolute';
                     removeBtn.style.top = '5px';
                     removeBtn.style.right = '5px';
@@ -132,7 +150,7 @@
                     removeBtn.style.cursor = 'pointer';
                     removeBtn.style.borderRadius = '50%';
 
-                    removeBtn.onclick = function() {
+                    removeBtn.onclick = function () {
                         imgWrapper.remove();
                     };
 
@@ -144,6 +162,37 @@
             }
         }
     });
+
+    // Handle removal of existing images
+    document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            let imageId = this.getAttribute('data-image-id');
+            let imageWrapper = this.parentElement;
+
+                $.ajax({
+                    url: "{{ route('deleteImage.blog') }}",
+                        type: "post",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            id:imageId
+                        },
+                success: function(response) {
+                if (response) {
+                    imageWrapper.remove();
+                } else {
+                    alert('Error deleting image.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error deleting image:", error);
+                alert('Something went wrong. Please try again.');
+            }
+            });
+
+        });
+    });
+});
+
 </script>
 <script>
     CKEDITOR.replace('short_description');

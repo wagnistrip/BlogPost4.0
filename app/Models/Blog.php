@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Blog extends Model
 {
     use HasFactory;
+    protected $table = 'blogs';
+
+    protected $fillable = [
+                             'user_id ','category_id','title','sub_title','short_description','description','slug','status',
+                             'view_count','comment_count','seo_title','seo_description','seo_keywords','like_count','share_count'
+                ];
 
     public function user()
     {
@@ -26,7 +32,6 @@ class Blog extends Model
         return $this->hasMany(BlogComment::class);
     }
 
-    // A blog can have many images
     public function images()
     {
         return $this->hasMany(BlogImage::class);
