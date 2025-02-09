@@ -75,55 +75,63 @@ class BlogDashboardController extends Controller
             }
         }
 
-
-
         return redirect()->route('blog.dashboard')->with('success', 'Blog created successfully!');
     }
     public function edit($id)
     {
-         $data["blog"] = Blog::find($id);
+         $blog       = Blog::find($id);
+         $categories  = BlogCategory::get();
 
-         return view('blogs.dashboard.edit',$data);
+         return view('blogs.dashboard.edit',compact('blog','categories'));
     }
-    public function BlogUpdate(Request $request)
+    public function BlogUpdate(Request $request,$id)
     {
-          $validator = Validator::make($request->all(), [
-               'heading'     => 'required',
-               'sub_heading' => 'required',
-               'name'        => 'required',
-               'image'       => 'image|mimes:jpeg,png,jpg,gif,svg'
-          ]);
 
-          if ($validator->fails()) {
-               return redirect()->back()->withErrors($validator);
-          }
+        $validator = Validator::make($request->all(), [
+            'heading'           => 'required|string|max:255',
+            'sub_heading'       => 'nullable|string|max:255',
+            'categories'        => 'nullable',
+            'short_description' => 'nullable|string',
+            'description'       => 'nullable|string',
+            'status'            => 'required|boolean',
+            'images.*'          => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
 
-          $updateid                 = $request->id;
-          $blog                     = Blog::find($updateid);
-          $blog->heading            = $request->heading;
-          $blog->sub_heading        = $request->sub_heading;
-          $blog->name               = $request->name;
-          $blog->short_description  = $request->short_description;
-          $blog->description        = $request->description;
-          $blog->admin_id           = Auth::id();
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-          if ($request->hasFile('image')) {
+        $blog = Blog::findOrFail($id);
 
-               if ($blog->image && file_exists(public_path('blog/') . $blog->image)) {
-               unlink(public_path('blog/') . $blog->image);
-               }
+        $blog->update([
+            'title'             => $request->heading,
+            'sub_title'         => $request->sub_heading,
+            'short_description' => $request->short_description,
+            'description'       => $request->description,
+            'status'            => $request->status,
+            'category_id'       => $request->categories,
+            'slug'              => $this->generateUniqueSlug($request->heading,$id),
+        ]);
 
-               $file            = $request->file('image');
-               $img_ext         = $file->getClientOriginalExtension();
-               $filename        = 'blog-' . time() . '.' . $img_ext;
-               $file->move('blog/', $filename);
-               $blog->image     = $filename;
-          }
+        if ($request->hasFile('images')) {
+            $existingImages = BlogImage::where('blog_id', $blog->id)->get();
 
-          $blog->status         = $request->status;
-          $blog->save();
+            foreach ($request->file('images') as $key => $image) {
+                $filename = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+                $path     = $image->storeAs('uploads/blogs', $filename, 'public');
 
-          return redirect()->route('blog.dashboard')->with('success', 'Blog Updated successfully!');
+                BlogImage::updateOrCreate(
+                    ['id' => $existingImages[$key]->id ?? null],
+                    [
+                        'blog_id'    => $blog->id,
+                        'image_path' => $path,
+                        'image_name' => $filename,
+                    ]
+                );
+            }
+        }
+
+        return redirect()->route('blog.dashboard')->with('success', 'Blog updated successfully!');
 
     }
     public function destroy($id)
@@ -150,7 +158,7 @@ class BlogDashboardController extends Controller
 
     public function deleteImage(Request $request)
     {
-      
+
             $image = BlogImage::find($request['id']);
 
             if (!$image) {

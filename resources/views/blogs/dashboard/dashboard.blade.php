@@ -62,7 +62,7 @@
 
 
                                         </td>
-                                        <td>{{ $blog->name }}</td>
+                                        <td>{{ $blog->title }}</td>
                                         @if ($blog->status == 1)
                                         <td><span class="label-custom label label-default">Active</span></td>
                                         @else

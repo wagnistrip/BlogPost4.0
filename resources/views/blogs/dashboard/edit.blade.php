@@ -48,11 +48,11 @@
                     <div class="row">
                         <div class="col-sm-12 form-section">
                             <label class="col-form-label" for="heading">Heading <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control form-control-lg" id="heading" name="heading" value="{{ old('heading', $blog->heading) }}" autofocus>
+                            <input type="text" class="form-control form-control-lg" id="heading" name="heading" value="{{ old('heading', $blog->title) }}" autofocus>
                         </div>
                         <div class="col-sm-12 form-section">
                             <label class="col-form-label" for="sub_heading">Sub Heading</label>
-                            <input type="text" class="form-control form-control-lg" id="sub_heading" name="sub_heading" value="{{ old('sub_heading', $blog->sub_heading) }}">
+                            <input type="text" class="form-control form-control-lg" id="sub_heading" name="sub_heading" value="{{ old('sub_heading', $blog->sub_title) }}">
                         </div>
                         <div class="col-sm-6 form-section">
                             <label class="col-form-label" for="name">Author Name</label>
@@ -60,13 +60,19 @@
                         </div>
                         <div class="col-sm-6 form-section">
                             <label class="col-form-label" for="categories">Blog Categories</label>
-                            <select class="form-select form-control-lg" name="categories[]" id="categories">
-                                <option value="1" {{ in_array(1, $blog->categories ?? []) ? 'selected' : '' }}>Technology</option>
-                                <option value="2" {{ in_array(2, $blog->categories ?? []) ? 'selected' : '' }}>Health</option>
-                                <option value="3" {{ in_array(3, $blog->categories ?? []) ? 'selected' : '' }}>Travel</option>
-                                <option value="4" {{ in_array(4, $blog->categories ?? []) ? 'selected' : '' }}>Lifestyle</option>
+                            <select class="form-select form-control-lg" name="categories" id="categories">
+                                <option value="">Select Category</option> <!-- Default placeholder -->
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" {{ $category->id == $blog->category_id ? 'selected': ' ' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
                             </select>
+
+                            <span class="error invalid-feedback" style="display: none;">Please select at least one category.</span>
                         </div>
+
+
                         <div class="col-sm-12 form-section">
                             <label class="col-form-label" for="short_description">Short Description</label>
                             <textarea id="short_description" class="form-control" name="short_description" rows="6">{{ old('short_description', $blog->short_description) }}</textarea>

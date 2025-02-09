@@ -66,7 +66,7 @@ Route::group(['prefix' => '/admin'], function() {
         Route::post('store', [BlogDashboardController::class, 'store'])->name('blog.store');
         Route::get('dashboard', [BlogDashboardController::class, 'dashboard'])->name('blog.dashboard');
         Route::get('edit/{id}', [BlogDashboardController::class, 'edit'])->name('blog.edit');
-        Route::put('/update', [BlogDashboardController::class, 'BlogUpdate'])->name('blog.update');
+        Route::put('/update/{id}', [BlogDashboardController::class, 'BlogUpdate'])->name('blog.update');
         Route::delete('/blog/delete/{id}',[BlogDashboardController::class, 'destroy'])->name('blog.delete');
         Route::post('logoutblog',[BlogDashboardController::class, 'logout'])->name('blog.logout');
 
