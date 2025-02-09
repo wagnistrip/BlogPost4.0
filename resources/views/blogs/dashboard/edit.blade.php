@@ -46,19 +46,16 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-12 form-section">
+                        <div class="col-sm-6 form-section">
                             <label class="col-form-label" for="heading">Heading <span class="text-danger">*</span></label>
                             <input type="text" class="form-control form-control-lg" id="heading" name="heading" value="{{ old('heading', $blog->title) }}" autofocus>
                         </div>
-                        <div class="col-sm-12 form-section">
+                        <div class="col-sm-6 form-section">
                             <label class="col-form-label" for="sub_heading">Sub Heading</label>
                             <input type="text" class="form-control form-control-lg" id="sub_heading" name="sub_heading" value="{{ old('sub_heading', $blog->sub_title) }}">
                         </div>
-                        <div class="col-sm-6 form-section">
-                            <label class="col-form-label" for="name">Author Name</label>
-                            <input type="text" class="form-control form-control-lg" id="name" name="name" value="{{ old('name', $blog->name) }}">
-                        </div>
-                        <div class="col-sm-6 form-section">
+                     
+                        <div class="col-sm-12 form-section">
                             <label class="col-form-label" for="categories">Blog Categories</label>
                             <select class="form-select form-control-lg" name="categories" id="categories">
                                 <option value="">Select Category</option> <!-- Default placeholder -->

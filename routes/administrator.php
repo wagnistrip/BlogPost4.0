@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Blog\BlogDashboardController;
 use App\Http\Controllers\Category\CategoryController;
 
-Route::get('/', function () {
+Route::get('/admin', function () {
     return redirect()->route('login');
 });
 

@@ -18,4 +18,4 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('blog/detail',[BlogController::class,'Deatils'])->name('blog.detail');
-Route::resource('/', BlogController::class);
+Route::resource('/blogs', BlogController::class);
