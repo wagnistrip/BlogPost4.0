@@ -12,15 +12,11 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">Blog Categories</a>
                         <div class="dropdown-menu border-0 rounded-0 m-0">
-                            <a href="#" class="dropdown-item active">Flights</a>
-                            <a href="#" class="dropdown-item">Hotels</a>
-                            <a href="#" class="dropdown-item">Tours</a>
-                            <a href="#" class="dropdown-item">Packages</a>
-                            <a href="#" class="dropdown-item">Buses</a>
-                            <a href="#" class="dropdown-item">Cabs</a>
+                            @foreach($categories as $key => $category)
+                            <a href="#" class="dropdown-item {{ $key == 0 ? 'active' : '' }}">{{ $category->name }}</a>
+                            @endforeach
                         </div>
                     </div>
-
                 </div>
             </div>
         </nav>

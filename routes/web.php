@@ -17,5 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('blog/detail',[BlogController::class,'Deatils'])->name('blog.detail');
+Route::get('/category/{slug}', [BlogController::class, 'categoryBlogs'])->name('category.blogs');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.details');
+
 Route::resource('/blogs', BlogController::class);
